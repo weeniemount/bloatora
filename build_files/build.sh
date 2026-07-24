@@ -13,7 +13,9 @@ cp -avf "/ctx/system_files"/. /
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # im sorry but it must be done. im too curious
-dnf repoquery --latest-limit 1 --qf '%{name}' | sort -u | sudo xargs -r dnf install -y --skip-unavailable --allowerasing
+dnf repoquery --latest-limit 1 --qf '%{name}' > bloat.txt
+split -l 10000 bloat.txt bloat-part-
+for f in bloat-part-*; do cat "$f" | sudo xargs -n 1000 dnf install -y --skip-unavailable --allowerasing; done
 
 # Use a COPR Example:
 #
