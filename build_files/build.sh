@@ -16,7 +16,10 @@ cp -avf "/ctx/system_files"/. /
 dnf repoquery --latest-limit 1 --qf '%{name}\n' > bloat.txt
 split -l 10000 bloat.txt bloat-part-
 for f in bloat-part-*; do
-    cat "$f" | sudo xargs -r -s 50000 dnf install -y --skip-unavailable --allowerasing
+    split -l 50 "$f" small-
+    for s in small-*; do
+        cat "$s" | xargs -r sudo dnf install -y --skip-unavailable --allowerasing || true
+    done
 done
 
 # Use a COPR Example:
