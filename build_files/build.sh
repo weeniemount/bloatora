@@ -13,7 +13,7 @@ cp -avf "/ctx/system_files"/. /
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # im sorry but it must be done. im too curious
-sudo dnf install -y --skip-unavailable --allowerasing $(dnf repoquery --latest-limit 1 --qf '%{name}' | sort -u)
+dnf repoquery --latest-limit 1 --qf '%{name}' | sort -u | sudo xargs -r dnf install -y --skip-unavailable --allowerasing
 
 # Use a COPR Example:
 #
