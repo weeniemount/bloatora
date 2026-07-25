@@ -18,7 +18,7 @@ split -l 10000 bloat.txt bloat-part-
 for f in bloat-part-*; do
     split -l 50 "$f" small-
     for s in small-*; do
-        cat "$s" | xargs -r sudo dnf install -y --disable-plugin='*' --no-plugins --skip-unavailable --allowerasing || true
+        cat "$s" | xargs -r sudo dnf install -y --no-plugins --skip-unavailable --allowerasing || true
     done
 done
 
