@@ -13,7 +13,7 @@ cp -avf "/ctx/system_files"/. /
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # im sorry but it must be done. im too curious
-dnf repoquery --latest-limit 1 --qf '%{name}\n' > bloat.txt
+dnf repoquery --latest-limit 1 --qf '%{name}\n' | grep -v -- '-devel$' > bloat.txt
 split -l 10000 bloat.txt bloat-part-
 for f in bloat-part-*; do
     split -l 50 "$f" small-
@@ -21,6 +21,9 @@ for f in bloat-part-*; do
         cat "$s" | xargs -r sudo dnf install -y --no-plugins --skip-unavailable --allowerasing || true
     done
 done
+
+systemctl enable gdm
+systemctl set-default graphical.target
 
 # Use a COPR Example:
 #
